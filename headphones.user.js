@@ -5,6 +5,7 @@
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
+// @updateURL    https://raw.githubusercontent.com/cormacmccarthy/controlfreak/master/headphones.user.js
 // @grant        none
 // @require http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
