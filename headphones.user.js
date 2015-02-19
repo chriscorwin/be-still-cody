@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.3
+// @version      0.1.4
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
@@ -61,3 +61,36 @@ var trashSlowBS = function() {
 }
 trashSlowBS();
 
+//hide hidden items, and add hide to remaining
+var hiddenChats = JSON.parse(localStorage.getItem('hiddenChats')) || []; 
+console.log('hiddenChats', hiddenChats);
+var enableHiddenChatsFeature = function enableHiddenChatsFeature() {
+    $('.feeditem').each(function(i, el){
+        var $el = $(el);
+        var id = $el[0].id;
+        var hiddenChatI = hiddenChats.indexOf(id);
+
+        if(hiddenChatI >= 0){
+            $el.remove();
+        }else{
+            if($el.find('.hideFeedItem').length <= 0){
+                $el.prepend('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+            }
+        }
+    });
+
+    $('.hideFeedItem').on('click', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        hiddenChats.unshift($this.data('id'));
+        localStorage.setItem('hiddenChats', JSON.stringify(hiddenChats));
+        $this.closest('.feeditem').remove();
+    });
+    
+    window.setTimeout(enableHiddenChatsFeature, 4500);
+}
+enableHiddenChatsFeature();
+
+$('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a').on('click', function(e){
+    window.setTimeout(enableHiddenChatsFeature, 4500);
+});
