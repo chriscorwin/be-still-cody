@@ -74,7 +74,7 @@ var enableHiddenChatsFeature = function enableHiddenChatsFeature() {
             $el.remove();
         }else{
             if($el.find('.hideFeedItem').length <= 0){
-                $el.prepend('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+                $el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
             }
         }
     });
