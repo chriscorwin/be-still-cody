@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.4
+// @version      0.1.5
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
