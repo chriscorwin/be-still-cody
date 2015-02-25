@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.5
+// @version      0.1.6
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
@@ -11,14 +11,14 @@
 // ==/UserScript==
 
 //make tabs easier to access by assigning their text as class names
-$('#tabBar li').each(function(i, el){
+$('#tabBar li').each(function (i, el) {
 	var $el = $(el);
 	$el.addClass($el.text().toLowerCase());
 });
 
 // Trash BS
 [
-	'.brandZeronaryFgr', //trash logo
+	'.brandZeronaryFgr',//trash logo
 	'#Contract_Tab',
 	'#AdvForecast_Tab',
 	'#Opportunity_Tab',
@@ -46,51 +46,58 @@ $('#tabBar li').each(function(i, el){
 	'a[href^="javascript:openPopupFocusEscapePounds"]',//remove useless links to help docs
 	'.chatterUserStatus',//trash redundant profile pic and link in Chatter
 	'.headerContent'//trash pointless huge "salesforce.com" text and invisible header bar
-].forEach(function(el, i, bs){
+].forEach(function (el, i, bs) {
 	$(el).remove();
 });
 
 //trash BS that loads really slowly
-var trashSlowBS = function() {
+var trashSlowBS = function () {
 	[
 		'#presence_widget'
-	].forEach(function(el, i, bs){
+	].forEach(function (el, i, bs) {
 		$(el).remove();
 	});
 	window.setTimeout(trashSlowBS, 2000);
 }
 trashSlowBS();
 
-//hide hidden items, and add hide to remaining
-var hiddenChats = JSON.parse(localStorage.getItem('hiddenChats')) || []; 
-console.log('hiddenChats', hiddenChats);
-var enableHiddenChatsFeature = function enableHiddenChatsFeature() {
-    $('.feeditem').each(function(i, el){
-        var $el = $(el);
-        var id = $el[0].id;
-        var hiddenChatI = hiddenChats.indexOf(id);
+Feed.prototype.muteItem = function (a, c) {
+	var b = e.getFeedItemData(Sfdc.Dom.getParent(a, ".cxfeeditem")).feedItemType,
+		b = t("Feeds", "FeedPostHideConfirmation", b);
 
-        if(hiddenChatI >= 0){
-            $el.remove();
-        }else{
-            if($el.find('.hideFeedItem').length <= 0){
-                $el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
-            }
-        }
-    });
+	var d = chatter.getToolbox();
+	d.mask(Ext.fly(a));
+	d.post({
+		url: "/feeditems/" + c + "/mute",
+		failure: function () {
+			d.unmask(Ext.fly(a))
+		},
+		success: function (b, c) {
+			e.removeItemElement(a)
+		}
+	});
+	chatter.getEventBus().fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
+		el: this
+	})
+};
 
-    $('.hideFeedItem').on('click', function(e){
-        e.preventDefault();
-        var $this = $(this);
-        hiddenChats.unshift($this.data('id'));
-        localStorage.setItem('hiddenChats', JSON.stringify(hiddenChats));
-        $this.closest('.feeditem').remove();
-    });
-    
-    window.setTimeout(enableHiddenChatsFeature, 4500);
+var betterMuteButton = function betterMuteButton() {
+	$('.feeditem').each(function (i, el) {
+		var $el = $(el);
+		var id = $el[0].id;
+
+		$el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+	});
+
+	$('.hideFeedItem').on('click', function (e) {
+		e.preventDefault();
+		chatter.getFeed().muteItem(this, $(this).data('id'));
+	});
+
+	window.setTimeout(betterMuteButton, 4500);
 }
-enableHiddenChatsFeature();
+betterMuteButton();
 
-$('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a').on('click', function(e){
-    window.setTimeout(enableHiddenChatsFeature, 4500);
+$('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a').on('click', function (e) {
+	window.setTimeout(betterMuteButton, 4500);
 });
