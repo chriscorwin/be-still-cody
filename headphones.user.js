@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.7
+// @version      0.1.8
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
@@ -61,25 +61,26 @@ var trashSlowBS = function () {
 }
 trashSlowBS();
 
-Feed.prototype.muteItem = function (a, c) {
-	var b = e.getFeedItemData(Sfdc.Dom.getParent(a, ".cxfeeditem")).feedItemType,
-		b = t("Feeds", "FeedPostHideConfirmation", b);
+var attachChatterChanges = function attachChatterChanges() {
+	chatter.ext_Feed.muteItem = function (element, c) {
+		console.log('here');
+		//var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
 
-	var d = chatter.getToolbox();
-	d.mask(Ext.fly(a));
-	d.post({
-		url: "/feeditems/" + c + "/mute",
-		failure: function () {
-			d.unmask(Ext.fly(a))
-		},
-		success: function (b, c) {
-			e.removeItemElement(a)
-		}
-	});
-	chatter.getEventBus().fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
-		el: this
-	})
-};
+		var toolbox = chatter.getToolbox();
+		toolbox.mask(Ext.fly(element));
+		toolbox.post({
+			url: "/feeditems/" + c + "/mute",
+			success: function (b, c) {
+				$(element).closest('.cxfeeditem').remove();
+			}
+		});
+		chatter.getEventBus().fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
+			el: this
+		})
+	};
+}
+
+window.setTimeout(attachChatterChanges, 4500);
 
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem').each(function (i, el) {
