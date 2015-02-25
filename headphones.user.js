@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.5
+// @version      0.1.8
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
@@ -51,46 +51,56 @@ $( '#tabBar li' ).each( function( i, el ) {
 } );
 
 //trash BS that loads really slowly
-var trashSlowBS = function() {
+var trashSlowBS = function () {
 	[
 		'#presence_widget'
-	].forEach( function( el, i, bs ) {
-		$( el ).remove();
-	} );
-	window.setTimeout( trashSlowBS, 2000 );
+	].forEach(function (el, i, bs) {
+		$(el).remove();
+	});
+	window.setTimeout(trashSlowBS, 2000);
 }
 trashSlowBS();
 
-//hide hidden items, and add hide to remaining
-var hiddenChats = JSON.parse( localStorage.getItem( 'hiddenChats' ) ) || [];
-console.log( 'hiddenChats', hiddenChats );
-var enableHiddenChatsFeature = function enableHiddenChatsFeature() {
-	$( '.feeditem' ).each( function( i, el ) {
-		var $el = $( el );
-		var id = $el[ 0 ].id;
-		var hiddenChatI = hiddenChats.indexOf( id );
+var attachChatterChanges = function attachChatterChanges() {
+	chatter.ext_Feed.muteItem = function (element, c) {
+		console.log('here');
+		//var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
 
-		if ( hiddenChatI >= 0 ) {
-			$el.remove();
-		} else {
-			if ( $el.find( '.hideFeedItem' ).length <= 0 ) {
-				$el.find( '.preamblecontainer.displayblock' ).append( '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>' );
+		var toolbox = chatter.getToolbox();
+		toolbox.mask(Ext.fly(element));
+		toolbox.post({
+			url: "/feeditems/" + c + "/mute",
+			success: function (b, c) {
+				$(element).closest('.cxfeeditem').remove();
 			}
+		});
+		chatter.getEventBus().fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
+			el: this
+		})
+	};
 		}
-	} );
 
-	$( '.hideFeedItem' ).on( 'click', function( e ) {
+window.setTimeout(attachChatterChanges, 4500);
+
+var betterMuteButton = function betterMuteButton() {
+	$('.feeditem').each(function (i, el) {
+		var $el = $(el);
+
+		if ($el.find('.hideFeedItem').length <= 0) {
+			var id = $el[0].id;
+			$el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+		}
+	});
+
+	$('.hideFeedItem').on('click', function (e) {
 		e.preventDefault();
-		var $this = $( this );
-		hiddenChats.unshift( $this.data( 'id' ) );
-		localStorage.setItem( 'hiddenChats', JSON.stringify( hiddenChats ) );
-		$this.closest( '.feeditem' ).remove();
-	} );
+		chatter.getFeed().muteItem(this, $(this).data('id'));
+	});
 
-	window.setTimeout( enableHiddenChatsFeature, 4500 );
+	window.setTimeout(betterMuteButton, 4500);
 }
-enableHiddenChatsFeature();
+betterMuteButton();
 
-$( '.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a' ).on( 'click', function( e ) {
-	window.setTimeout( enableHiddenChatsFeature, 4500 );
-} );
+$('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a').on('click', function (e) {
+	window.setTimeout(betterMuteButton, 4500);
+});
