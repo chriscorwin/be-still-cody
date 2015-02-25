@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Headphones
 // @namespace    http://chomperstomp.com
-// @version      0.1.6
+// @version      0.1.7
 // @description  Cut out the useless Chatter
 // @author       Christopher McCulloh
 // @match        https://org62.my.salesforce.com/*
@@ -84,9 +84,11 @@ Feed.prototype.muteItem = function (a, c) {
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem').each(function (i, el) {
 		var $el = $(el);
-		var id = $el[0].id;
 
-		$el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+		if ($el.find('.hideFeedItem').length <= 0) {
+			var id = $el[0].id;
+			$el.find('.preamblecontainer.displayblock').append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
+		}
 	});
 
 	$('.hideFeedItem').on('click', function (e) {
