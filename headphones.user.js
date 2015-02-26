@@ -11,67 +11,111 @@
 // ==/UserScript==
 
 // Add dependancies
-var addDependancies = function() {
-    var injectedStyles = [
-        "https://code.jquery.com/jquery-latest.js"
-    ,   "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-    //, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
-    ];
+var addDependancies = function () {
+	var injectedStyles = [
+		"https://code.jquery.com/jquery-latest.js"
+		, "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
+	];
 
-    $.each( injectedStyles, function( index, value ) {
-        $( "head" ).append( '<link href="' + value + '"' + ' rel="stylesheet" type="text/css">' );
-    } );
+	$.each(injectedStyles, function (index, value) {
+		$("head").append('<link href="' + value + '"' + ' rel="stylesheet" type="text/css">');
+	});
 
-    var injectedScripts = [
-        "https://code.jquery.com/jquery-latest.js",
-        "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
-        "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js",
-        "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
-    ];
+	var injectedScripts = [
+		"https://code.jquery.com/jquery-latest.js",
+		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
+		"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js",
+		"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
+	];
 
-    $.each( injectedScripts, function( index, value ) {
-        $( "head" ).append( '<script src="' + value + '"></script>' );
-    } );
+	$.each(injectedScripts, function (index, value) {
+		$("head").append('<script src="' + value + '"></script>');
+	});
 }
 
 // make tabs easier to access by assigning their text as class names
 $('#tabBar li')
-	.each(function(i, el) {
+	.each(function (i, el) {
 		var $el = $(el);
 		$el.addClass($el.text()
 			.toLowerCase());
 	});
 // Trash BS
-['.brandZeronaryFgr', // trash logo
-	'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement', // trash annoyingly bright yellow box thing
-	'#section_header', // trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
-	'#ptBody', // trash pointless redundant egotistical feed header
-	'.zen-branding', // trash logo
-	'a[href^="javascript:openPopupFocusEscapePounds"]', // remove useless links to help docs
-	'.chatterUserStatus', // trash redundant profile pic and link in Chatter
-	'.headerContent' // trash pointless huge "salesforce.com" text and invisible header bar
-].forEach(function(el, i, bs) {
+['.brandZeronaryFgr',// trash logo
+	'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
+	'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
+	'#ptBody',// trash pointless redundant egotistical feed header
+	'.zen-branding',// trash logo
+	'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
+	'.chatterUserStatus',// trash redundant profile pic and link in Chatter
+	'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
+].forEach(function (el, i, bs) {
 	$(el)
 		.remove();
 });
 // Trash BS that loads really slowly
-var trashSlowBS = function() {
-	['#presence_widget'].forEach(function(el, i, bs) {
+var trashSlowBS = function () {
+	['#presence_widget'].forEach(function (el, i, bs) {
 		$(el)
 			.remove();
 	});
+
+
+	$('.x-zen-tabMenu').addClass('nav').addClass('nav-pills');
+
+	$('.feedcontainer .feeditemcommentplaceholder input').addClass('feedcontainerFeeditemcommentplaceholderInput');
+	$('.feedcontainer .feeditemcommentplaceholder label span').addClass('feedcontainerFeeditemcommentplaceholderLabelSpan');
+	$('.feedcontainer .feeditemcommentphoto img').addClass('feedcontainerFeeditemcommentphotoImg');
+	$('.mainContentHeader').addClass('zen hidden');
+	$('.headerContent').addClass('fade collapse');
+	$('.zen-headerTop').addClass('pull-right');
+	$('.zen-navViaMenus').addClass('pull-right');
+
+
+	$('.leftContent ul').addClass('nav').addClass('nav-pills').addClass('nav-stacked');
+	$('.selected').addClass('active').removeClass('selected');
+	$('.zen-active').addClass('active').removeClass('zen-active');
+	$('.zen-assistiveText').addClass('sr-only').removeClass('zen-assistiveText');
+	$('.x-zen-assistiveText').addClass('sr-only').removeClass('x-zen-assistiveText');
+	$('.brandPrimaryBgr').removeClass('brandPrimaryBgr');
+	$('.primaryPalette').removeClass('primaryPalette');
+	$('.zen-bodyZen').addClass('panel').addClass('panel-default').removeClass('zen-bodyZen').removeClass('brdPalette').removeClass('brandPrimaryBrd');
+	$('.zen-navMenus').addClass('zen');
+	$('.zen-bodyInner').addClass('panel-body').removeClass('zen-bodyInner');
+	$('.leftContent').addClass('well');
+	$('#rightContent').addClass('panel').addClass('panel-default');
+	$('#rightContent > div').addClass('panel-body');
+	$('html').addClass('fuelux').removeClass('zen');
+	$('.zen-page > div > header').addClass('zen well');
+	$('.menuButtonRounded').addClass('dropdown').removeClass('menuButtonRounded');
+	$('.menuButtonButton').addClass('btn btn-primary dropdown-toggle').removeClass('menuButtonButton');
+	$('link[href="/sCSS/33.0/sprites/1423103332000/Theme3/default/gc/zenifiedChatterPageBase.css"').remove();
+	$('.feeditem').addClass('panel panel-default').removeClass('feeditem');
+	$('.feeditemusericon').parent('a').parent('span').wrap('<div class="panel-heading"></div>');
+	$('.feeditemusericon').removeClass('feeditemusericon');
+	$('.feeditemcontent').addClass('panel-body').removeClass('feeditemcontent');
+	$('.feeditemextras').addClass('well').removeClass('feeditemextras');
+	$('.feeditemcomments').removeClass('feeditemcomments');
+	$('.feeditemcomment').removeClass('feeditemcomment').addClass('panel panel-info');
+	$('.feeditemcommentbody').removeClass('feeditemcommentbody').addClass('panel-body');
+	$('.feeditemcommentphoto').addClass('pull-left');
+	$('.feeditemcommentplaceholder').addClass('well').removeClass('feeditemcommentplaceholder');
+	$('.newCommentContainer').addClass('well');
+	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
+
 	window.setTimeout(trashSlowBS, 2000);
 }
 trashSlowBS();
 var attachChatterChanges = function attachChatterChanges() {
-	chatter.ext_Feed.muteItem = function(element, c) {
+	chatter.ext_Feed.muteItem = function (element, c) {
 		console.log('here');
 		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
 		var toolbox = chatter.getToolbox();
 		toolbox.mask(Ext.fly(element));
 		toolbox.post({
 			url: "/feeditems/" + c + "/mute",
-			success: function(b, c) {
+			success: function (b, c) {
 				$(element)
 					.closest('.cxfeeditem')
 					.remove();
@@ -86,17 +130,17 @@ var attachChatterChanges = function attachChatterChanges() {
 window.setTimeout(attachChatterChanges, 4500);
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem')
-		.each(function(i, el) {
+		.each(function (i, el) {
 			var $el = $(el);
 			if ($el.find('.hideFeedItem')
-				.length <= 0) {
+					.length <= 0) {
 				var id = $el[0].id;
 				$el.find('.preamblecontainer.displayblock')
 					.append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide</a>');
 			}
 		});
 	$('.hideFeedItem')
-		.on('click', function(e) {
+		.on('click', function (e) {
 			e.preventDefault();
 			chatter.getFeed()
 				.muteItem(this, $(this)
@@ -106,64 +150,64 @@ var betterMuteButton = function betterMuteButton() {
 }
 betterMuteButton();
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
-	.on('click', function(e) {
+	.on('click', function (e) {
 		window.setTimeout(betterMuteButton, 4500);
 	});
 
 
 // Add some handy string manipulation stuff to JavaScript itself.
-String.prototype.endsWith = function( value ) {
-    if ( this.length < value.length ) {
-        return false;
-    } else {
-        return Boolean( this.substr( this.length - value.length, value.length + 1 ) === value );
-    }
+String.prototype.endsWith = function (value) {
+	if (this.length < value.length) {
+		return false;
+	} else {
+		return Boolean(this.substr(this.length - value.length, value.length + 1) === value);
+	}
 };
-String.prototype.contains = function( value, caseFlag ) {
-    if ( this.length < value.length ) {
-        return false;
-    } else {
-        var regExPattern_value = caseFlag === false ? new RegExp( value, "i" ) : new RegExp( value );
-        return Boolean( this.match( regExPattern_value ) );
-    }
+String.prototype.contains = function (value, caseFlag) {
+	if (this.length < value.length) {
+		return false;
+	} else {
+		var regExPattern_value = caseFlag === false ? new RegExp(value, "i") : new RegExp(value);
+		return Boolean(this.match(regExPattern_value));
+	}
 };
 
-String.prototype.beginsWith = function( string ) {
-    return this.indexOf( string ) === 0;
+String.prototype.beginsWith = function (string) {
+	return this.indexOf(string) === 0;
 };
 
 // Make a jQuery class stripper.
-disableZen = function( el ) {
-    prefix = "zen-";
-    var $theseElements = $(el);
-    $theseElements.each( function( i, el ) {
-        var $thisElement = $( el );
+disableZen = function (el) {
+	prefix = "zen-";
+	var $theseElements = $(el);
+	$theseElements.each(function (i, el) {
+		var $thisElement = $(el);
 
-        var oldClassNames = $thisElement.attr( "class" ).split( " " );
-        var newClassNames = "";
-        $thisElement.attr( "data-previous-class-names", $thisElement.attr( "class" ) );
-        $.each( oldClassNames, function( index, value ) {
-            if ( value.beginsWith( prefix ) ) {
-                newClassNames = newClassNames + " " + "x-" + value;
-                $thisElement.attr( ( "data-had-zen-class-" + value ), "true" );
-            }
-        } );
-        el.className = newClassNames;
-    } );
-    return $theseElements;
+		var oldClassNames = $thisElement.attr("class").split(" ");
+		var newClassNames = "";
+		$thisElement.attr("data-previous-class-names", $thisElement.attr("class"));
+		$.each(oldClassNames, function (index, value) {
+			if (value.beginsWith(prefix)) {
+				newClassNames = newClassNames + " " + "x-" + value;
+				$thisElement.attr( ("data-had-zen-class-" + value), "true");
+			}
+		});
+		el.className = newClassNames;
+	});
+	return $theseElements;
 };
 
 
-removeZenPrefix = function( el ) {
-    prefix = "zen-";
-    var $theseElements = $(el);
-    $theseElements.each( function( i, el ) {
-        var classes = el.className.split( " " ).filter( function( c ) {
-            console.log( "c.lastIndexOf( prefix, 0 )", c.lastIndexOf( prefix, 0 ) );
-            console.log( "c.lastIndexOf( prefix, 0 ) !== 0", c.lastIndexOf( prefix, 0 ) !== 0 );
-            return c.lastIndexOf( prefix, 0 ) !== 0;
-        } );
-        el.className = $.trim( classes.join( " " ) );
-    } );
-    return $theseElements;
+removeZenPrefix = function (el) {
+	prefix = "zen-";
+	var $theseElements = $(el);
+	$theseElements.each(function (i, el) {
+		var classes = el.className.split(" ").filter(function (c) {
+			console.log("c.lastIndexOf( prefix, 0 )", c.lastIndexOf(prefix, 0));
+			console.log("c.lastIndexOf( prefix, 0 ) !== 0", c.lastIndexOf(prefix, 0) !== 0);
+			return c.lastIndexOf(prefix, 0) !== 0;
+		});
+		el.className = $.trim(classes.join(" "));
+	});
+	return $theseElements;
 };
