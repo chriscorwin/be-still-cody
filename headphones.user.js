@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        Be Still, Cody
-// @namespace   http:// chomperstomp.com
+// @namespace   http://chomperstomp.com
 // @version     0.1.0+005
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
-// @match       https:// org62.my.salesforce.com/*
-// @updateURL   https:// raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
+// @match       https://org62.my.salesforce.com/*
+// @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
 // @grant       none
 // ==/UserScript==
 
