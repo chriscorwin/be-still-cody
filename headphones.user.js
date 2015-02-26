@@ -107,3 +107,39 @@ String.prototype.contains = function( value, caseFlag ) {
 String.prototype.beginsWith = function( string ) {
     return this.indexOf( string ) === 0;
 };
+
+// Make a jQuery class stripper.
+disableZen = function( el ) {
+    prefix = "zen-";
+    var $theseElements = $(el);
+    $theseElements.each( function( i, el ) {
+        var $thisElement = $( el );
+
+        var oldClassNames = $thisElement.attr( "class" ).split( " " );
+        var newClassNames = "";
+        $thisElement.attr( "data-previous-class-names", $thisElement.attr( "class" ) );
+        $.each( oldClassNames, function( index, value ) {
+            if ( value.beginsWith( prefix ) ) {
+                newClassNames = newClassNames + " " + "x-" + value;
+                $thisElement.attr( ( "data-had-zen-class-" + value ), "true" );
+            }
+        } );
+        el.className = newClassNames;
+    } );
+    return $theseElements;
+};
+
+
+removeZenPrefix = function( el ) {
+    prefix = "zen-";
+    var $theseElements = $(el);
+    $theseElements.each( function( i, el ) {
+        var classes = el.className.split( " " ).filter( function( c ) {
+            console.log( "c.lastIndexOf( prefix, 0 )", c.lastIndexOf( prefix, 0 ) );
+            console.log( "c.lastIndexOf( prefix, 0 ) !== 0", c.lastIndexOf( prefix, 0 ) !== 0 );
+            return c.lastIndexOf( prefix, 0 ) !== 0;
+        } );
+        el.className = $.trim( classes.join( " " ) );
+    } );
+    return $theseElements;
+};
