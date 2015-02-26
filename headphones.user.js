@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http:// chomperstomp.com
-// @version     0.1.0+004
+// @version     0.1.0+005
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -34,6 +34,7 @@ var addDependancies = function addDependancies() {
 	});
 }
 addDependancies();
+
 
 var trashBS = function trashBS() {
 	// make tabs easier to access by assigning their text as class names
