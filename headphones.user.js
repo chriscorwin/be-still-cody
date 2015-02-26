@@ -8,8 +8,32 @@
 // @match       https:// org62.my.salesforce.com/*
 // @updateURL   https:// raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
 // @grant       none
-// @require     http:// code.jquery.com/jquery-latest.js
 // ==/UserScript==
+
+// Add dependancies
+var addDependancies = function() {
+    var injectedStyles = [
+        "https://code.jquery.com/jquery-latest.js"
+    ,   "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    //, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
+    ];
+
+    $.each( injectedStyles, function( index, value ) {
+        $( "head" ).append( '<link href="' + value + '"' + ' rel="stylesheet" type="text/css">' );
+    } );
+
+    var injectedScripts = [
+        "https://code.jquery.com/jquery-latest.js",
+        "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
+    ];
+
+    $.each( injectedScripts, function( index, value ) {
+        $( "head" ).append( '<script src="' + value + '"></script>' );
+    } );
+}
+
 // make tabs easier to access by assigning their text as class names
 $('#tabBar li')
 	.each(function(i, el) {
