@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 // Add dependancies
-var addDependancies = function () {
+var addDependancies = function addDependancies() {
 	var injectedStyles = [
 		"https://code.jquery.com/jquery-latest.js"
 		, "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
@@ -33,29 +33,34 @@ var addDependancies = function () {
 		$("head").append('<script src="' + value + '"></script>');
 	});
 }
+addDependancies();
 
-// make tabs easier to access by assigning their text as class names
-$('#tabBar li')
-	.each(function (i, el) {
-		var $el = $(el);
-		$el.addClass($el.text()
-			.toLowerCase());
+var trashBS = function trashBS() {
+	// make tabs easier to access by assigning their text as class names
+	$('#tabBar li')
+		.each(function (i, el) {
+			var $el = $(el);
+			$el.addClass($el.text()
+				.toLowerCase());
+		});
+	// Trash BS
+	['.brandZeronaryFgr',// trash logo
+		'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
+		'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
+		'#ptBody',// trash pointless redundant egotistical feed header
+		'.zen-branding',// trash logo
+		'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
+		'.chatterUserStatus',// trash redundant profile pic and link in Chatter
+		'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
+	].forEach(function (el, i, bs) {
+		$(el)
+			.remove();
 	});
-// Trash BS
-['.brandZeronaryFgr',// trash logo
-	'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
-	'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
-	'#ptBody',// trash pointless redundant egotistical feed header
-	'.zen-branding',// trash logo
-	'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
-	'.chatterUserStatus',// trash redundant profile pic and link in Chatter
-	'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
-].forEach(function (el, i, bs) {
-	$(el)
-		.remove();
-});
+}
+trashBS();
+
 // Trash BS that loads really slowly
-var trashSlowBS = function () {
+var trashSlowBS = function trashSlowBS() {
 	['#presence_widget'].forEach(function (el, i, bs) {
 		$(el)
 			.remove();
@@ -107,6 +112,7 @@ var trashSlowBS = function () {
 	window.setTimeout(trashSlowBS, 2000);
 }
 trashSlowBS();
+
 var attachChatterChanges = function attachChatterChanges() {
 	chatter.ext_Feed.muteItem = function (element, c) {
 		console.log('here');
@@ -128,6 +134,7 @@ var attachChatterChanges = function attachChatterChanges() {
 	};
 }
 window.setTimeout(attachChatterChanges, 4500);
+
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem')
 		.each(function (i, el) {
@@ -156,14 +163,14 @@ $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
 
 
 // Add some handy string manipulation stuff to JavaScript itself.
-String.prototype.endsWith = function (value) {
+String.prototype.endsWith = function endsWith(value) {
 	if (this.length < value.length) {
 		return false;
 	} else {
 		return Boolean(this.substr(this.length - value.length, value.length + 1) === value);
 	}
 };
-String.prototype.contains = function (value, caseFlag) {
+String.prototype.contains = function contains(value, caseFlag) {
 	if (this.length < value.length) {
 		return false;
 	} else {
@@ -172,12 +179,12 @@ String.prototype.contains = function (value, caseFlag) {
 	}
 };
 
-String.prototype.beginsWith = function (string) {
+String.prototype.beginsWith = function beginsWith(string) {
 	return this.indexOf(string) === 0;
 };
 
 // Make a jQuery class stripper.
-disableZen = function (el) {
+var disableZen = function disableZen(el) {
 	prefix = "zen-";
 	var $theseElements = $(el);
 	$theseElements.each(function (i, el) {
@@ -196,9 +203,9 @@ disableZen = function (el) {
 	});
 	return $theseElements;
 };
+disableZen();
 
-
-removeZenPrefix = function (el) {
+var removeZenPrefix = function removeZenPrefix(el) {
 	prefix = "zen-";
 	var $theseElements = $(el);
 	$theseElements.each(function (i, el) {
@@ -211,3 +218,4 @@ removeZenPrefix = function (el) {
 	});
 	return $theseElements;
 };
+removeZenPrefix();
