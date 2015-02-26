@@ -85,3 +85,25 @@ $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
 	.on('click', function(e) {
 		window.setTimeout(betterMuteButton, 4500);
 	});
+
+
+// Add some handy string manipulation stuff to JavaScript itself.
+String.prototype.endsWith = function( value ) {
+    if ( this.length < value.length ) {
+        return false;
+    } else {
+        return Boolean( this.substr( this.length - value.length, value.length + 1 ) === value );
+    }
+};
+String.prototype.contains = function( value, caseFlag ) {
+    if ( this.length < value.length ) {
+        return false;
+    } else {
+        var regExPattern_value = caseFlag === false ? new RegExp( value, "i" ) : new RegExp( value );
+        return Boolean( this.match( regExPattern_value ) );
+    }
+};
+
+String.prototype.beginsWith = function( string ) {
+    return this.indexOf( string ) === 0;
+};
