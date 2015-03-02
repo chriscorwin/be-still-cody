@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+046
+// @version     0.1.0+047
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -88,19 +88,22 @@ var toggleFeedItem = function toggleFeedItem($el) {
 	}
 }
 var closeFeedItem = function closeFeedItem($el) {
-	closedFeedItems.unshift($this.data('id'));
+	closedFeedItems.unshift($el.data('id'));
 	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
 
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
 	$el.find('.cxfeeditemcontent').addClass('hidden');
 }
 var discloseFeedItem = function discloseFeedItem($el) {
+	console.log('discloseFeedItem', closedFeedItems);
 	//remove from closedFeedItems array
-	closedFeedItems = _.reject(closedFeedItems, function (id) {
-		console.log('id', id, $this.data('id'));
-		return id == $this.data('id');
-	});
-	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
+	if (closedFeedItems.length > 0) {
+		closedFeedItems = _.reject(closedFeedItems, function (id) {
+			console.log('id', id, $el.data('id'));
+			return id == $el.data('id');
+		});
+		localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
+	}
 
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');;
 	$el.find('.cxfeeditemcontent').removeClass('hidden')
