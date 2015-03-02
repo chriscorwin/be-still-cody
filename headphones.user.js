@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+043
+// @version     0.1.0+044
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -79,6 +79,31 @@ var reDOM = function reDOM() {
 	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>');
 }
 
+var closedFeedItems = JSON.parse(localStorage.getItem('closedFeedItems')) || [];
+var toggleFeedItem = function toggleFeedItem($el) {
+	if ($el.hasClass('hidden')) {
+		discloseFeedItem($el);
+	} else {
+		closeFeedItem($el);
+	}
+}
+var closeFeedItem = function closeFeedItem($el) {
+	closedFeedItems.unshift($this.data('id'));
+	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
+
+	$el.addClass('hidden').find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+}
+var discloseFeedItem = function discloseFeedItem($el) {
+	//remove from closedFeedItems array
+	closedFeedItems = _.reject(closedFeedItems, function (id) {
+		console.log('id', id, $this.data('id'));
+		return id == $this.data('id');
+	});
+	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
+
+	$el.removeClass('hidden').find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');;
+}
+
 var betterFeedItemActions = function betterFeedItemActions() {
 	$('.cxfeeditem:not(.processed)').each(function eachFeedItem(i, el) {
 		var $el = $(el);
@@ -117,11 +142,24 @@ var betterFeedItemActions = function betterFeedItemActions() {
 			}
 
 			$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
-		})
+		});
 
 		$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
 			.append(hide, bookmark, editTopics, del);
+
+		var hiddenChatI = closedFeedItems.indexOf(id);
+
+		if (hiddenChatI >= 0) {
+			closeFeedItem($el);
+		}
 	});
+
+	$('.disclosureTrigger').on('click', function (e) {
+		e.preventDefault();
+		var $this = $(this);
+		toggleFeedItem($this);
+	});
+
 	window.setTimeout(betterFeedItemActions, 4500);
 }
 
