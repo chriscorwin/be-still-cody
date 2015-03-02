@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+028
+// @version     0.1.0+029
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -35,7 +35,8 @@ var addDependancies = function addDependancies() {
 	var selector = ".abc";
 	var rule = "{color: red}";
 	_.each(document.styleSheets, function stylesheets(stylesheet, key, styles) {
-		stylesheet.addRule(selector, rule, -1);
+		console.log('stylesheet', stylesheet);
+		stylesheet.insertRule(selector + rule, stylesheet.rules.length);
 	});
 }
 addDependancies();
