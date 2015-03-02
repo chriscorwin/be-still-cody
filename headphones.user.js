@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+024
+// @version     0.1.0+025
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
 // @match       https://org62.my.salesforce.com/*
 // @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
 // @require     http://code.jquery.com/jquery-latest.js
+// @require     https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js
 // @grant       none
 // ==/UserScript==
 
@@ -18,33 +21,14 @@
 
 // Add dependancies
 var addDependancies = function addDependancies() {
-	var injectedStyles = [
-		'https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css',
-		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	var injectedStyles = {
+		'headphones': 'https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css',
+		'bootstrap': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
 		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
-	];
+	};
 
-	$.each(injectedStyles, function eachInjectedStyles(index, value) {
-		$("head").append('<link href="' + value + '"' + ' rel="stylesheet" type="text/css">');
-	});
-
-	var addStyle = function addStyle(css) {
-		var head = window.document.getElementsByTagName("head")[0];
-		var link = window.document.createElement('style');
-		var ele = head.appendChild(link);
-		ele.innerHTML = css;
-	}
-
-	addStyle('@import "https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css";');
-
-	var injectedScripts = [
-		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
-		"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js",
-		"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
-	];
-
-	$.each(injectedScripts, function eachInjectedScripts(index, value) {
-		$("head").append('<script src="' + value + '"></script>');
+	_.each(injectedStyles, function eachInjectedStyles(value, key, styles) {
+		$("head").append('<link title="' + key + '" href="' + value + '" rel="stylesheet" type="text/css">');
 	});
 }
 addDependancies();
