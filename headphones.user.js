@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+010
+// @version     0.1.0+011
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -128,7 +128,7 @@ var betterMuteButton = function betterMuteButton() {
 	$('.hideFeedItem')
 		.on('click', function onClickHideFeedItem(e) {
 			e.preventDefault();
-			chatter.getFeed()
+			window.chatter.getFeed()
 				.muteItem(this, $(this)
 					.data('id'));
 		});
@@ -136,15 +136,15 @@ var betterMuteButton = function betterMuteButton() {
 }
 
 var attachChatterChanges = function attachChatterChanges() {
-	if (typeof chatter === "undefined") {
+	if (typeof window.chatter === "undefined") {
 		window.setTimeout(attachChatterChanges, 500);
-		console.log("chatter:" + chatter)
+		console.log("chatter:" + window.chatter)
 		return;
 	}
 
-	chatter.ext_Feed.muteItem = function muteItem(element, c) {
+	window.chatter.ext_Feed.muteItem = function muteItem(element, c) {
 		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
-		var toolbox = chatter.getToolbox();
+		var toolbox = window.chatter.getToolbox();
 		toolbox.mask(Ext.fly(element));
 		toolbox.post({
 			url: "/feeditems/" + c + "/mute",
@@ -154,7 +154,7 @@ var attachChatterChanges = function attachChatterChanges() {
 					.remove();
 			}
 		});
-		chatter.getEventBus()
+		window.chatter.getEventBus()
 			.fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
 				el: this
 			})
