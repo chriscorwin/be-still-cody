@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+030
+// @version     0.1.0+031
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
