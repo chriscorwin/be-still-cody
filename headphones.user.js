@@ -6,7 +6,8 @@
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
 // @match       https://org62.my.salesforce.com/*
-// @updateURL   https://rawgit.com/cormacmccarthy/be-still-cody/master/headphones.user.js
+// @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
+// @updateURL   https:// rawgit.com/cormacmccarthy/be-still-cody/master/headphones.user.js
 // @require     http://code.jquery.com/jquery-latest.js
 // @require     https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js
