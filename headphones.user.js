@@ -115,7 +115,7 @@ var trashSlowBS = function trashSlowBS() {
 trashSlowBS();
 
 var betterMuteButton = function betterMuteButton() {
-	$('.feeditem')
+	$('.cxfeeditem')
 		.each(function eachFeedItem(i, el) {
 			var $el = $(el);
 			if ($el.find('.hideFeedItem')
