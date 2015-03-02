@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+022
+// @version     0.1.0+023
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -133,7 +133,6 @@ var betterMuteButton = function betterMuteButton() {
 
 			$el.find('.panel-heading')
 				.append(hideButton)
-				.end()
 				.append($el.find('.feeditemActionMenu').detach());
 		}
 	});
