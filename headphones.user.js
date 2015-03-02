@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+017
+// @version     0.1.0+018
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -19,14 +19,21 @@
 // Add dependancies
 var addDependancies = function addDependancies() {
 	var injectedStyles = [
-		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css",
-		"https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css"
+		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
 	];
 
 	$.each(injectedStyles, function eachInjectedStyles(index, value) {
 		$("head").append('<link href="' + value + '"' + ' rel="stylesheet" type="text/css">');
 	});
+
+	var addStyle = function addStyle(style) {
+		var head = document.getElementsByTagName("HEA­D")[0];
+		var ele = head.appendChild(document.c­reateElement('style'));
+		ele.innerHTML = style;
+	}
+
+	addStyle('@import "https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css";');­
 
 	var injectedScripts = [
 		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
