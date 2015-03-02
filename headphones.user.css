@@ -1,0 +1,16 @@
+/*
+ * CHATTER FEED
+ */
+
+.panel-heading {
+	height: 69px;
+}
+
+.chatter-avatar{
+	float: left;
+}
+
+.hideFeedItem {
+	display: block;
+	float: right;
+}
