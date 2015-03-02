@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+032
+// @version     0.1.0+033
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -109,24 +109,51 @@ var trashSlowBS = function trashSlowBS() {
 }
 trashSlowBS();
 
-var betterMuteButton = function betterMuteButton() {
+var betterFeedItemActions = function betterFeedItemActions() {
 	$('.cxfeeditem').each(function eachFeedItem(i, el) {
 		var $el = $(el);
 		if ($el.find('.hideFeedItem').length <= 0) {
 			var id = $el[0].id;
 
-			var hideButton = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
+			var $menu = $el.find('.feeditemActionMenu').detach();
+			// var hide = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
+			var bookmark, editTopics, del;
+
+			$menu.find('a').each(function () {
+				var icon;
+				$this = $(this);
+				switch ($this.text()) {
+					case "Bookmark":
+						icon = "bookmark";
+						bookmark = $this;
+						break;
+					case "Edit Topics":
+						icon = "glyphicon-tags";
+						editTopics = $this;
+						break;
+					case "Delete":
+						icon = "glyphicon-remove";
+						del = $this;
+						break;
+					case "Mute":
+						icon = "glyphicon-volume-off";
+						hide = $this;
+						break;
+
+				}
+
+				$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
+			})
 
 			$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
-				.append(hideButton)
-				.append($el.find('.feeditemActionMenu').detach());
+				.append(hide, bookmark, editTopics, del);
 		}
 	});
-	$('.hideFeedItem').on('click', function onClickHideFeedItem(e) {
-		e.preventDefault();
-		chatter.getFeed().muteItem(this, $(this).data('id'));
-	});
-	window.setTimeout(betterMuteButton, 4500);
+	// $('.hideFeedItem').on('click', function onClickHideFeedItem(e) {
+	// 	e.preventDefault();
+	// 	chatter.getFeed().muteItem(this, $(this).data('id'));
+	// });
+	window.setTimeout(betterFeedItemActions, 4500);
 }
 
 var attachChatterChanges = function attachChatterChanges() {
@@ -152,13 +179,13 @@ var attachChatterChanges = function attachChatterChanges() {
 			})
 	};
 
-	betterMuteButton();
+	betterFeedItemActions();
 }
 window.setTimeout(attachChatterChanges, 4500);
 
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
-	.on('click', function callBetterMuteButton(e) {
-		window.setTimeout(betterMuteButton, 4500);
+	.on('click', function callbetterFeedItemActions(e) {
+		window.setTimeout(betterFeedItemActions, 4500);
 	});
 
 
