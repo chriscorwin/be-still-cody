@@ -1,15 +1,19 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+006
+// @version     0.1.0+007
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
 // @match       https://org62.my.salesforce.com/*
 // @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
-// @require     http:// code.jquery.com/jquery-latest.js
+// @require     http://code.jquery.com/jquery-latest.js
 // @grant       none
 // ==/UserScript==
+
+var jquery = document.createElement('script');
+jquery.src = "https://code.jquery.com/jquery-latest.js";
+document.getElementByTagName('head')[0].appendChild(jquery);
 
 // Add dependancies
 var addDependancies = function addDependancies() {
@@ -24,7 +28,6 @@ var addDependancies = function addDependancies() {
 	});
 
 	var injectedScripts = [
-		"https://code.jquery.com/jquery-latest.js",
 		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
 		"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js",
 		"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
