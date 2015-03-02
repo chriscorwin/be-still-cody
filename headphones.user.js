@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+047
+// @version     0.1.0+048
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -88,7 +88,7 @@ var toggleFeedItem = function toggleFeedItem($el) {
 	}
 }
 var closeFeedItem = function closeFeedItem($el) {
-	closedFeedItems.unshift($el.data('id'));
+	closedFeedItems.unshift($el.prop('id'));
 	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
 
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
@@ -99,8 +99,8 @@ var discloseFeedItem = function discloseFeedItem($el) {
 	//remove from closedFeedItems array
 	if (closedFeedItems.length > 0) {
 		closedFeedItems = _.reject(closedFeedItems, function (id) {
-			console.log('id', id, $el.data('id'));
-			return id == $el.data('id');
+			console.log('id', id, $el.prop('id'));
+			return id == $el.prop('id');
 		});
 		localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
 	}
@@ -158,7 +158,7 @@ var betterFeedItemActions = function betterFeedItemActions() {
 			closeFeedItem($el);
 		}
 
-		$el.on('click', function (e) {
+		$el.find('.disclosureTrigger').on('click', function (e) {
 			e.preventDefault();
 			var $this = $(this);
 			console.log('here', $this);
