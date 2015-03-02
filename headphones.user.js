@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+016
+// @version     0.1.0+017
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -116,23 +116,23 @@ var trashSlowBS = function trashSlowBS() {
 trashSlowBS();
 
 var betterMuteButton = function betterMuteButton() {
-	$('.cxfeeditem')
-		.each(function eachFeedItem(i, el) {
-			var $el = $(el);
-			if ($el.find('.hideFeedItem')
-					.length <= 0) {
-				var id = $el[0].id;
-				$el.find('.panel-heading')
-					.append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>');
-			}
-		});
-	$('.hideFeedItem')
-		.on('click', function onClickHideFeedItem(e) {
-			e.preventDefault();
-			chatter.getFeed()
-				.muteItem(this, $(this)
-					.data('id'));
-		});
+	$('.cxfeeditem').each(function eachFeedItem(i, el) {
+		var $el = $(el);
+		if ($el.find('.hideFeedItem').length <= 0) {
+			var id = $el[0].id;
+
+			var hideButton = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
+
+			$el.find('.panel-heading')
+				.append(hideButton)
+				.end()
+				.append($el.find('.feeditemActionMenu').detach());
+		}
+	});
+	$('.hideFeedItem').on('click', function onClickHideFeedItem(e) {
+		e.preventDefault();
+		chatter.getFeed().muteItem(this, $(this).data('id'));
+	});
 	window.setTimeout(betterMuteButton, 4500);
 }
 
