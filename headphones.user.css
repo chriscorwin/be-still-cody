@@ -11,8 +11,13 @@
 }
 
 .feeditemActionsWrapper {
+	text-align: right;
 	float: right;
 	width: 150px;
+}
+
+.feeditemActionsWrapper a{
+	margin-right: 4px;
 }
 
 .feeditemActionMenu{

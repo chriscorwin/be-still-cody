@@ -157,8 +157,14 @@ var betterFeedItemActions = function betterFeedItemActions() {
 	window.setTimeout(betterFeedItemActions, 4500);
 }
 
+var bailAfter = 10;
+var bailCount = 0;
 var attachChatterChanges = function attachChatterChanges() {
 	if (typeof chatter === "undefined") {
+		if (bailCount < bailAfter) {
+			window.setTimeout(attachChatterChanges, 500);
+		}
+
 		return;
 	}
 
@@ -182,7 +188,7 @@ var attachChatterChanges = function attachChatterChanges() {
 
 	betterFeedItemActions();
 }
-window.setTimeout(attachChatterChanges, 4500);
+window.setTimeout(attachChatterChanges, 1500);
 
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
 	.on('click', function callbetterFeedItemActions(e) {
