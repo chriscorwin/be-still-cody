@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+029
+// @version     0.1.0+030
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -22,7 +22,7 @@
 // Add dependancies
 var addDependancies = function addDependancies() {
 	var injectedStyles = {
-		'headphones': 'https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css',
+		'headphones': 'https://rawgit.com/cormacmccarthy/be-still-cody/master/headphones.user.css',
 		'bootstrap': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
 		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
 	};
