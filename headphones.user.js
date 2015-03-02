@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+045
+// @version     0.1.0+046
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -81,7 +81,7 @@ var reDOM = function reDOM() {
 
 var closedFeedItems = JSON.parse(localStorage.getItem('closedFeedItems')) || [];
 var toggleFeedItem = function toggleFeedItem($el) {
-	if ($el.hasClass('hidden')) {
+	if ($el.find('.cxfeeditemcontent').hasClass('hidden')) {
 		discloseFeedItem($el);
 	} else {
 		closeFeedItem($el);
