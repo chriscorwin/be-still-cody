@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+008
+// @version     0.1.0+009
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -11,19 +11,19 @@
 // @grant       none
 // ==/UserScript==
 
-var jquery = document.createElement('script');
-jquery.src = "https://code.jquery.com/jquery-latest.js";
-document.getElementsByTagName('head')[0].appendChild(jquery);
+// the @require above should take care of this
+// var jquery = document.createElement('script');
+// jquery.src = "https://code.jquery.com/jquery-latest.js";
+// document.getElementsByTagName('head')[0].appendChild(jquery);
 
 // Add dependancies
 var addDependancies = function addDependancies() {
 	var injectedStyles = [
-		"https://code.jquery.com/jquery-latest.js"
-		, "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
 	];
 
-	$.each(injectedStyles, function (index, value) {
+	$.each(injectedStyles, function eachInjectedStyles(index, value) {
 		$("head").append('<link href="' + value + '"' + ' rel="stylesheet" type="text/css">');
 	});
 
@@ -33,7 +33,7 @@ var addDependancies = function addDependancies() {
 		"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"
 	];
 
-	$.each(injectedScripts, function (index, value) {
+	$.each(injectedScripts, function eachInjectedScripts(index, value) {
 		$("head").append('<script src="' + value + '"></script>');
 	});
 }
@@ -42,12 +42,10 @@ addDependancies();
 
 var trashBS = function trashBS() {
 	// make tabs easier to access by assigning their text as class names
-	$('#tabBar li')
-		.each(function (i, el) {
-			var $el = $(el);
-			$el.addClass($el.text()
-				.toLowerCase());
-		});
+	$('#tabBar li').each(function eachTabBarLi(i, el) {
+		var $el = $(el);
+		$el.addClass($el.text().toLowerCase());
+	});
 	// Trash BS
 	['.brandZeronaryFgr',// trash logo
 		'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
@@ -57,18 +55,16 @@ var trashBS = function trashBS() {
 		'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
 		'.chatterUserStatus',// trash redundant profile pic and link in Chatter
 		'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
-	].forEach(function (el, i, bs) {
-		$(el)
-			.remove();
+	].forEach(function eachBS(el, i, bs) {
+		$(el).remove();
 	});
 }
 trashBS();
 
 // Trash BS that loads really slowly
 var trashSlowBS = function trashSlowBS() {
-	['#presence_widget'].forEach(function (el, i, bs) {
-		$(el)
-			.remove();
+	['#presence_widget'].forEach(function eachPresenceWidget(el, i, bs) {
+		$(el).remove();
 	});
 
 
@@ -119,14 +115,13 @@ var trashSlowBS = function trashSlowBS() {
 trashSlowBS();
 
 var attachChatterChanges = function attachChatterChanges() {
-	chatter.ext_Feed.muteItem = function (element, c) {
-		console.log('here');
+	chatter.ext_Feed.muteItem = function muteItem(element, c) {
 		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
 		var toolbox = chatter.getToolbox();
 		toolbox.mask(Ext.fly(element));
 		toolbox.post({
 			url: "/feeditems/" + c + "/mute",
-			success: function (b, c) {
+			success: function toolboxPostSuccess(b, c) {
 				$(element)
 					.closest('.cxfeeditem')
 					.remove();
@@ -142,7 +137,7 @@ window.setTimeout(attachChatterChanges, 4500);
 
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem')
-		.each(function (i, el) {
+		.each(function eachFeedItem(i, el) {
 			var $el = $(el);
 			if ($el.find('.hideFeedItem')
 					.length <= 0) {
@@ -152,7 +147,7 @@ var betterMuteButton = function betterMuteButton() {
 			}
 		});
 	$('.hideFeedItem')
-		.on('click', function (e) {
+		.on('click', function onClickHideFeedItem(e) {
 			e.preventDefault();
 			chatter.getFeed()
 				.muteItem(this, $(this)
@@ -162,7 +157,7 @@ var betterMuteButton = function betterMuteButton() {
 }
 betterMuteButton();
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
-	.on('click', function (e) {
+	.on('click', function callBetterMuteButton(e) {
 		window.setTimeout(betterMuteButton, 4500);
 	});
 
@@ -191,8 +186,8 @@ String.prototype.beginsWith = function beginsWith(string) {
 // Make a jQuery class stripper.
 var disableZen = function disableZen(el) {
 	prefix = "zen-";
-	var $theseElements = $(el);
-	$theseElements.each(function (i, el) {
+	var $zenElements = $(el);
+	$zenElements.each(function disableEachZenElement(i, el) {
 		var $thisElement = $(el);
 
 		var oldClassNames = $thisElement.attr("class").split(" ");
@@ -206,14 +201,14 @@ var disableZen = function disableZen(el) {
 		});
 		el.className = newClassNames;
 	});
-	return $theseElements;
+	return $zenElements;
 };
 disableZen();
 
 var removeZenPrefix = function removeZenPrefix(el) {
 	prefix = "zen-";
-	var $theseElements = $(el);
-	$theseElements.each(function (i, el) {
+	var $zenElements = $(el);
+	$zenElements.each(function removeEachZenElement(i, el) {
 		var classes = el.className.split(" ").filter(function (c) {
 			console.log("c.lastIndexOf( prefix, 0 )", c.lastIndexOf(prefix, 0));
 			console.log("c.lastIndexOf( prefix, 0 ) !== 0", c.lastIndexOf(prefix, 0) !== 0);
@@ -221,6 +216,6 @@ var removeZenPrefix = function removeZenPrefix(el) {
 		});
 		el.className = $.trim(classes.join(" "));
 	});
-	return $theseElements;
+	return $zenElements;
 };
 removeZenPrefix();
