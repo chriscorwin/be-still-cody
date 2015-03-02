@@ -7,6 +7,7 @@
 // @contributor Chris Corwin
 // @match       https://org62.my.salesforce.com/*
 // @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
+// @require     http:// code.jquery.com/jquery-latest.js
 // @grant       none
 // ==/UserScript==
 
