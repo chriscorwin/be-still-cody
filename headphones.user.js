@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+018
+// @version     0.1.0+019
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -27,13 +27,14 @@ var addDependancies = function addDependancies() {
 		$("head").append('<link href="' + value + '"' + ' rel="stylesheet" type="text/css">');
 	});
 
-	var addStyle = function addStyle(style) {
+	var addStyle = function addStyle(css) {
 		var head = document.getElementsByTagName("HEA­D")[0];
-		var ele = head.appendChild(document.c­reateElement('style'));
-		ele.innerHTML = style;
+		var link = document.createElement('style');
+		var ele = head.appendChild(link);
+		ele.innerHTML = css;
 	}
 
-	addStyle('@import "https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css";');­
+	addStyle('@import "https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css";');
 
 	var injectedScripts = [
 		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js",
