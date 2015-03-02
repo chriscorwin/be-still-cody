@@ -76,7 +76,7 @@ var reDOM = function reDOM() {
 	$('.newCommentContainer').addClass('well');
 	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
 
-	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>');
+	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="label label-default"></span></a>');
 }
 
 var closedFeedItems = JSON.parse(localStorage.getItem('closedFeedItems')) || [];
@@ -88,18 +88,34 @@ var toggleFeedItem = function toggleFeedItem($el) {
 	}
 }
 var closeFeedItem = function closeFeedItem($el) {
-	closedFeedItems.unshift($el.prop('id'));
-	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
+	var labelClass = 'label-default';
+	var commentsN = scrapeFeedItemCommentCount($el);
+	if (!_.contains(closedFeedItems, $el.prop('id'))) {
+		closedFeedItems.unshift({
+			id: $el.prop('id'),
+			comments: commentsN
+		});
+	} else {
+		var eli = _.findIndex(closedFeedItems, function (item) {
+			return item.id === $el.prop('id');
+		});
 
+		if (closedFeedItems[eli].comments < commentsN) {
+			labelClass = 'label-primary';
+			closedFeedItems[eli].comments = commentsN;
+		}
+
+	}
+
+	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+	$el.find('.disclosureTrigger label').removeClass().addClass('label', labelClass);
 	$el.find('.cxfeeditemcontent').addClass('hidden');
 }
 var discloseFeedItem = function discloseFeedItem($el) {
-	console.log('discloseFeedItem', closedFeedItems);
 	//remove from closedFeedItems array
 	if (closedFeedItems.length > 0) {
 		closedFeedItems = _.reject(closedFeedItems, function (id) {
-			console.log('id', id, $el.prop('id'));
 			return id == $el.prop('id');
 		});
 		localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
@@ -107,6 +123,11 @@ var discloseFeedItem = function discloseFeedItem($el) {
 
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');;
 	$el.find('.cxfeeditemcontent').removeClass('hidden')
+}
+var scrapeFeedItemCommentCount = function scrapeFeedItemCommentCount($el) {
+	var hiddenN = $el.find('.cxfeedcommentcount').text() + 0;
+	var shownN = $el.find('.cxfeedcomment').length;
+	return hiddenN + shownN;
 }
 
 var betterFeedItemActions = function betterFeedItemActions() {
