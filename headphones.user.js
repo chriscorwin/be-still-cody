@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+040
+// @version     0.1.0+041
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -34,6 +34,50 @@ var addDependancies = function addDependancies() {
 }
 addDependancies();
 
+var betterFeedItemActions = function betterFeedItemActions() {
+	$('.cxfeeditem').each(function eachFeedItem(i, el) {
+		var $el = $(el);
+		if ($el.find('.hideFeedItem').length <= 0) {
+			var id = $el[0].id;
+
+			var $feeditemTitle = $el.find('.preamblecontainer').detach();
+
+			var $menu = $el.find('.feeditemActionMenu').detach();
+			// var hide = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
+			var bookmark, editTopics, del;
+
+			$menu.find('a').each(function () {
+				var icon;
+				$this = $(this);
+				switch ($this.text()) {
+					case "Bookmark":
+						icon = "bookmark";
+						bookmark = $this;
+						break;
+					case "Edit Topics":
+						icon = "tags";
+						editTopics = $this;
+						break;
+					case "Delete":
+						icon = "remove";
+						del = $this;
+						break;
+					case "Mute":
+						icon = "volume-off";
+						hide = $this;
+						break;
+
+				}
+
+				$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
+			})
+
+			$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
+				.append($feeditemTitle, hide, bookmark, editTopics, del);
+		}
+	});
+	window.setTimeout(betterFeedItemActions, 4500);
+}
 
 var trashBS = function trashBS() {
 	// make tabs easier to access by assigning their text as class names
@@ -54,6 +98,8 @@ var trashBS = function trashBS() {
 	].forEach(function eachBS(el, i, bs) {
 		$(el).remove();
 	});
+
+	betterFeedItemActions();
 }
 trashBS();
 
@@ -110,56 +156,10 @@ var trashSlowBS = function trashSlowBS() {
 }
 trashSlowBS();
 
-var betterFeedItemActions = function betterFeedItemActions() {
-	$('.cxfeeditem').each(function eachFeedItem(i, el) {
-		var $el = $(el);
-		if ($el.find('.hideFeedItem').length <= 0) {
-			var id = $el[0].id;
-
-			var $menu = $el.find('.feeditemActionMenu').detach();
-			// var hide = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
-			var bookmark, editTopics, del;
-
-			$menu.find('a').each(function () {
-				var icon;
-				$this = $(this);
-				switch ($this.text()) {
-					case "Bookmark":
-						icon = "bookmark";
-						bookmark = $this;
-						break;
-					case "Edit Topics":
-						icon = "tags";
-						editTopics = $this;
-						break;
-					case "Delete":
-						icon = "remove";
-						del = $this;
-						break;
-					case "Mute":
-						icon = "volume-off";
-						hide = $this;
-						break;
-
-				}
-
-				$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
-			})
-
-			$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
-				.append(hide, bookmark, editTopics, del);
-		}
-	});
-	// $('.hideFeedItem').on('click', function onClickHideFeedItem(e) {
-	// 	e.preventDefault();
-	// 	chatter.getFeed().muteItem(this, $(this).data('id'));
-	// });
-	window.setTimeout(betterFeedItemActions, 4500);
-}
-
 var bailAfter = 10;
 var bailCount = 0;
 var attachChatterChanges = function attachChatterChanges() {
+	bailCount++;
 	if (typeof chatter === "undefined") {
 		if (bailCount < bailAfter) {
 			window.setTimeout(attachChatterChanges, 500);
@@ -167,6 +167,8 @@ var attachChatterChanges = function attachChatterChanges() {
 
 		return;
 	}
+
+	bailCount = bailAfter;
 
 	chatter.ext_Feed.muteItem = function muteItem(element, c) {
 		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
@@ -185,10 +187,8 @@ var attachChatterChanges = function attachChatterChanges() {
 				el: this
 			})
 	};
-
-	betterFeedItemActions();
 }
-window.setTimeout(attachChatterChanges, 1500);
+attachChatterChanges();
 
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
 	.on('click', function callbetterFeedItemActions(e) {
