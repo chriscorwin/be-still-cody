@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+031
+// @version     0.1.0+032
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -117,7 +117,7 @@ var betterMuteButton = function betterMuteButton() {
 
 			var hideButton = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
 
-			$el.find('.panel-heading')
+			$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
 				.append(hideButton)
 				.append($el.find('.feeditemActionMenu').detach());
 		}

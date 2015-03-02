@@ -10,7 +10,15 @@
 	float: left;
 }
 
-.hideFeedItem {
-	display: block;
+.feedItemActionsWrapper {
 	float: right;
+	width: 50px;
+}
+
+.feeditemActionMenu{
+	display: block;
+}
+
+.feeditemActionMenuButton{
+	width: 16px;
 }
