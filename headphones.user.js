@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+021
+// @version     0.1.0+022
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -145,7 +145,9 @@ var betterMuteButton = function betterMuteButton() {
 }
 
 var attachChatterChanges = function attachChatterChanges() {
-	console.log('chatter is defined!', chatter, chatter.ext_Feed);
+	if (typeof chatter === "undefined") {
+		return;
+	}
 
 	chatter.ext_Feed.muteItem = function muteItem(element, c) {
 		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
