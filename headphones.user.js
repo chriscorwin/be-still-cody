@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+007
+// @version     0.1.0+008
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -13,7 +13,7 @@
 
 var jquery = document.createElement('script');
 jquery.src = "https://code.jquery.com/jquery-latest.js";
-document.getElementByTagName('head')[0].appendChild(jquery);
+document.getElementsByTagName('head')[0].appendChild(jquery);
 
 // Add dependancies
 var addDependancies = function addDependancies() {
