@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+041
+// @version     0.1.0+042
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -34,82 +34,7 @@ var addDependancies = function addDependancies() {
 }
 addDependancies();
 
-var betterFeedItemActions = function betterFeedItemActions() {
-	$('.cxfeeditem').each(function eachFeedItem(i, el) {
-		var $el = $(el);
-		if ($el.find('.hideFeedItem').length <= 0) {
-			var id = $el[0].id;
-
-			var $feeditemTitle = $el.find('.preamblecontainer').detach();
-
-			var $menu = $el.find('.feeditemActionMenu').detach();
-			// var hide = '<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>';
-			var bookmark, editTopics, del;
-
-			$menu.find('a').each(function () {
-				var icon;
-				$this = $(this);
-				switch ($this.text()) {
-					case "Bookmark":
-						icon = "bookmark";
-						bookmark = $this;
-						break;
-					case "Edit Topics":
-						icon = "tags";
-						editTopics = $this;
-						break;
-					case "Delete":
-						icon = "remove";
-						del = $this;
-						break;
-					case "Mute":
-						icon = "volume-off";
-						hide = $this;
-						break;
-
-				}
-
-				$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
-			})
-
-			$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
-				.append($feeditemTitle, hide, bookmark, editTopics, del);
-		}
-	});
-	window.setTimeout(betterFeedItemActions, 4500);
-}
-
-var trashBS = function trashBS() {
-	// make tabs easier to access by assigning their text as class names
-	$('#tabBar li').each(function eachTabBarLi(i, el) {
-		var $el = $(el);
-		$el.addClass($el.text().toLowerCase());
-	});
-	// Trash BS
-	['#chat_widget_frame',
-		'.brandZeronaryFgr',// trash logo
-		'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
-		'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
-		'#ptBody',// trash pointless redundant egotistical feed header
-		'.zen-branding',// trash logo
-		'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
-		'.chatterUserStatus',// trash redundant profile pic and link in Chatter
-		'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
-	].forEach(function eachBS(el, i, bs) {
-		$(el).remove();
-	});
-
-	betterFeedItemActions();
-}
-trashBS();
-
-// Trash BS that loads really slowly
-var trashSlowBS = function trashSlowBS() {
-	['#presence_widget'].forEach(function eachPresenceWidget(el, i, bs) {
-		$(el).remove();
-	});
-
-
+var reDOM = function reDOM() {
 	$('.x-zen-tabMenu').addClass('nav').addClass('nav-pills');
 
 	$('.feedcontainer .feeditemcommentplaceholder input').addClass('feedcontainerFeeditemcommentplaceholderInput');
@@ -138,7 +63,6 @@ var trashSlowBS = function trashSlowBS() {
 	$('.zen-page > div > header').addClass('zen well');
 	$('.menuButtonRounded').addClass('dropdown').removeClass('menuButtonRounded');
 	$('.menuButtonButton').addClass('btn btn-primary dropdown-toggle').removeClass('menuButtonButton');
-	$('link[href="/sCSS/33.0/sprites/1423103332000/Theme3/default/gc/zenifiedChatterPageBase.css"').remove();
 	$('.feeditem').addClass('panel panel-default').removeClass('feeditem');
 	$('.feeditemusericon').parent('a').parent('span').wrap('<div class="panel-heading"></div>');
 	$('.feeditemusericon').removeClass('feeditemusericon');
@@ -151,10 +75,88 @@ var trashSlowBS = function trashSlowBS() {
 	$('.feeditemcommentplaceholder').addClass('well').removeClass('feeditemcommentplaceholder');
 	$('.newCommentContainer').addClass('well');
 	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
-
-	window.setTimeout(trashSlowBS, 2000);
 }
-trashSlowBS();
+
+var betterFeedItemActions = function betterFeedItemActions() {
+	$('.cxfeeditem:not(.processed)').each(function eachFeedItem(i, el) {
+		var $el = $(el);
+
+		$el.addClass('processed');
+
+		var id = $el[0].id;
+
+		var $feeditemTitle = $el.find('.preamblecontainer').detach();
+		$el.find('.panel-heading').append($feeditemTitle);
+
+		var $menu = $el.find('.feeditemActionMenu').detach();
+
+		var hide, bookmark, editTopics, del;
+		$menu.find('a').each(function () {
+			var icon;
+			$this = $(this);
+			switch ($this.text()) {
+				case "Bookmark":
+					icon = "bookmark";
+					bookmark = $this;
+					break;
+				case "Edit Topics":
+					icon = "tags";
+					editTopics = $this;
+					break;
+				case "Delete":
+					icon = "remove";
+					del = $this;
+					break;
+				case "Mute":
+					icon = "volume-off";
+					hide = $this;
+					break;
+
+			}
+
+			$this.html('<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>')
+		})
+
+		$('<div class="feeditemActionsWrapper"></div>').appendTo($el.find('.panel-heading'))
+			.append(hide, bookmark, editTopics, del);
+	});
+	window.setTimeout(betterFeedItemActions, 4500);
+}
+
+var trashBS = function trashBS() {
+	// make tabs easier to access by assigning their text as class names
+	$('#tabBar li').each(function eachTabBarLi(i, el) {
+		var $el = $(el);
+		$el.addClass($el.text().toLowerCase());
+	});
+	// Trash BS
+	['#chat_widget_frame',
+		'link[href="/sCSS/33.0/sprites/1423103332000/Theme3/default/gc/zenifiedChatterPageBase.css"',
+		'.brandZeronaryFgr',// trash logo
+		'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
+		'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
+		'#ptBody',// trash pointless redundant egotistical feed header
+		'.zen-branding',// trash logo
+		'a[href^="javascript:openPopupFocusEscapePounds"]',// remove useless links to help docs
+		'.chatterUserStatus',// trash redundant profile pic and link in Chatter
+		'.headerContent'// trash pointless huge "salesforce.com" text and invisible header bar
+	].forEach(function eachBS(el, i, bs) {
+		$(el).remove();
+	});
+}
+trashBS();
+reDOM();
+betterFeedItemActions();
+
+// Trash BS that loads really slowly
+var trashDelayedBS = function trashDelayedBS() {
+	['#presence_widget'].forEach(function eachPresenceWidget(el, i, bs) {
+		$(el).remove();
+	});
+
+	window.setTimeout(trashDelayedBS, 2000);
+}
+trashDelayedBS();
 
 var bailAfter = 10;
 var bailCount = 0;
