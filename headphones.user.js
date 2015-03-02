@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+014
+// @version     0.1.0+015
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -121,8 +121,8 @@ var betterMuteButton = function betterMuteButton() {
 			if ($el.find('.hideFeedItem')
 					.length <= 0) {
 				var id = $el[0].id;
-				$el.find('.feeditemActionMenu')
-					.perpend('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '"><span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>');
+				$el.find('.panel-heading')
+					.append('<a href="remove' + id + '" class="hideFeedItem" data-id="' + id + '">hide <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span></a>');
 			}
 		});
 	$('.hideFeedItem')
