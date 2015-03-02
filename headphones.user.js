@@ -6,7 +6,7 @@
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
 // @match       https://org62.my.salesforce.com/*
-// @updateURL   https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.js
+// @updateURL   https://rawgit.com/cormacmccarthy/be-still-cody/master/headphones.user.js
 // @require     http://code.jquery.com/jquery-latest.js
 // @require     https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js
@@ -29,14 +29,6 @@ var addDependancies = function addDependancies() {
 
 	_.each(injectedStyles, function eachInjectedStyles(value, key, styles) {
 		$("head").append('<link href="' + value + '" rel="stylesheet" type="text/css">');
-	});
-
-	//trying to force headphones.user.css interpretation...
-	var selector = ".abc";
-	var rule = "{color: red}";
-	_.each(document.styleSheets, function stylesheets(stylesheet, key, styles) {
-		console.log('stylesheet', stylesheet);
-		stylesheet.insertRule(selector + rule, stylesheet.rules.length);
 	});
 }
 addDependancies();
