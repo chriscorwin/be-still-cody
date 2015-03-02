@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+009
+// @version     0.1.0+010
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -114,27 +114,6 @@ var trashSlowBS = function trashSlowBS() {
 }
 trashSlowBS();
 
-var attachChatterChanges = function attachChatterChanges() {
-	chatter.ext_Feed.muteItem = function muteItem(element, c) {
-		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
-		var toolbox = chatter.getToolbox();
-		toolbox.mask(Ext.fly(element));
-		toolbox.post({
-			url: "/feeditems/" + c + "/mute",
-			success: function toolboxPostSuccess(b, c) {
-				$(element)
-					.closest('.cxfeeditem')
-					.remove();
-			}
-		});
-		chatter.getEventBus()
-			.fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
-				el: this
-			})
-	};
-}
-window.setTimeout(attachChatterChanges, 4500);
-
 var betterMuteButton = function betterMuteButton() {
 	$('.feeditem')
 		.each(function eachFeedItem(i, el) {
@@ -155,7 +134,36 @@ var betterMuteButton = function betterMuteButton() {
 		});
 	window.setTimeout(betterMuteButton, 4500);
 }
-betterMuteButton();
+
+var attachChatterChanges = function attachChatterChanges() {
+	if (typeof chatter === "undefined") {
+		window.setTimeout(attachChatterChanges, 500);
+		console.log("chatter:" + chatter)
+		return;
+	}
+
+	chatter.ext_Feed.muteItem = function muteItem(element, c) {
+		// var b = $(element).closest(".cxfeeditem").data('feedItem').feeditemtype;
+		var toolbox = chatter.getToolbox();
+		toolbox.mask(Ext.fly(element));
+		toolbox.post({
+			url: "/feeditems/" + c + "/mute",
+			success: function toolboxPostSuccess(b, c) {
+				$(element)
+					.closest('.cxfeeditem')
+					.remove();
+			}
+		});
+		chatter.getEventBus()
+			.fireEvent("chatter:feed", "onAfterDeleteFeedItem", {
+				el: this
+			})
+	};
+
+	betterMuteButton();
+}
+window.setTimeout(attachChatterChanges, 4500);
+
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
 	.on('click', function callBetterMuteButton(e) {
 		window.setTimeout(betterMuteButton, 4500);
