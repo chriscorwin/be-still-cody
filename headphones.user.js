@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+023
+// @version     0.1.0+024
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -19,6 +19,7 @@
 // Add dependancies
 var addDependancies = function addDependancies() {
 	var injectedStyles = [
+		'https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/headphones.user.css',
 		"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 		//, "https:// NEED SOME WAY TO MAKE THIS USER-SPECIFIC AT BUILD TIME /headphones.user.css"
 	];
@@ -56,7 +57,8 @@ var trashBS = function trashBS() {
 		$el.addClass($el.text().toLowerCase());
 	});
 	// Trash BS
-	['.brandZeronaryFgr',// trash logo
+	['#chat_widget_frame',
+		'.brandZeronaryFgr',// trash logo
 		'#Contract_Tab', '#AdvForecast_Tab', '#Opportunity_Tab', '#Contact_Tab', '#Account_Tab', '#Lead_Tab', '#Campaign_Tab', '#Case_Tab', '#Solution_Tab', '#report_Tab', '#Document_Tab', '#Workspace_Tab', '#ContentSearch_Tab', '#File_Tab', '#phHeader .left', '#bodyCell .links', '#presence_widget', '#tabBar .partner.applications', '#tabBar .sales.central', '#tabBar .companies', '.recElement.todoElement',// trash annoyingly bright yellow box thing
 		'#section_header',// trash the amazing-space-eating "hide/show feed" button that for some reason needs its own huge bar. Well, trash the whole bar!
 		'#ptBody',// trash pointless redundant egotistical feed header
