@@ -14,7 +14,9 @@
 .preamblecontainer {
 	width: 350px;
 	float: left;
-	text-overflow: ellipsis;
+	height: 15px;
+	overflow: hidden;
+	margin-left: 10px;
 }
 
 .topics {
@@ -43,12 +45,6 @@
 
 .feeditemActionMenu{
 	display: block;
-}
-
-
-
-.preamblecontainer > span {
-	margin-left: 12px;
 }
 
 .disclosureTrigger {
