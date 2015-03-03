@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?><feed xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+	<title>Mail Filters</title>
+	<id>tag:mail.google.com,2008:filters:1425390836252,1425391058692</id>
+	<updated>2015-03-03T13:57:46Z</updated>
+	<author>
+		<name>Christopher McCulloh</name>
+		<email>cmcculloh@salesforce.com</email>
+	</author>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:1425390836252</id>
+		<updated>2015-03-03T13:57:46Z</updated>
+		<content></content>
+		<apps:property name='to' value='uxds-indy@exacttarget.com'/>
+		<apps:property name='shouldNeverMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_social'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+	<entry>
+		<category term='filter'></category>
+		<title>Mail Filter</title>
+		<id>tag:mail.google.com,2008:filter:1425391058692</id>
+		<updated>2015-03-03T13:57:46Z</updated>
+		<content></content>
+		<apps:property name='hasTheWord' value='subject:(wfh OR WFH OR Wfh OR &quot;2hr delay&quot; OR PTO OR VTO OR &quot;In by&quot; OR &quot;In befor&quot; OR &quot;finishing from&quot; OR &quot;working from&quot;)'/>
+		<apps:property name='shouldMarkAsRead' value='true'/>
+		<apps:property name='shouldArchive' value='true'/>
+		<apps:property name='shouldNeverMarkAsImportant' value='true'/>
+		<apps:property name='smartLabelToApply' value='^smartlabel_social'/>
+		<apps:property name='sizeOperator' value='s_sl'/>
+		<apps:property name='sizeUnit' value='s_smb'/>
+	</entry>
+</feed>
