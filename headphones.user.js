@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+065
+// @version     0.1.0+066
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -129,12 +129,12 @@ var reDOMfeeditems = function reDOMfeeditems() {
 	$('.newCommentContainer').addClass('well');
 	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
 
-	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="label label-default"></span></a>');
-
 	$('.cxfeeditem:not(.processed)').each(function eachFeedItem(i, el) {
 		var $el = $(el);
 
 		$el.addClass('processed');
+
+		$el.find('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="label label-default"></span></a>');
 
 		var id = $el[0].id;
 
