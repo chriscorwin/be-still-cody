@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+064
+// @version     0.1.0+065
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -63,20 +63,6 @@ var reDOM = function reDOM() {
 	$('.zen-page > div > header').addClass('zen well');
 	$('.menuButtonRounded').addClass('dropdown').removeClass('menuButtonRounded');
 	$('.menuButtonButton').addClass('btn btn-primary dropdown-toggle').removeClass('menuButtonButton');
-	$('.feeditem').addClass('panel panel-default').removeClass('feeditem');
-	$('.feeditemusericon').parent('a').parent('span').wrap('<div class="panel-heading"></div>');
-	$('.feeditemusericon').removeClass('feeditemusericon');
-	$('.feeditemcontent').addClass('panel-body').removeClass('feeditemcontent');
-	$('.feeditemextras').addClass('well').removeClass('feeditemextras');
-	$('.feeditemcomments').removeClass('feeditemcomments');
-	$('.feeditemcomment').removeClass('feeditemcomment').addClass('panel panel-info');
-	$('.feeditemcommentbody').removeClass('feeditemcommentbody').addClass('panel-body');
-	$('.feeditemcommentphoto').addClass('pull-left');
-	$('.feeditemcommentplaceholder').addClass('well').removeClass('feeditemcommentplaceholder');
-	$('.newCommentContainer').addClass('well');
-	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
-
-	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="label label-default"></span></a>');
 }
 
 var closedFeedItems = JSON.parse(localStorage.getItem('closedFeedItems')) || [];
@@ -129,7 +115,22 @@ var scrapeFeedItemCommentCount = function scrapeFeedItemCommentCount($el) {
 	return hiddenN + shownN || 0;
 }
 
-var betterFeedItemActions = function betterFeedItemActions() {
+var reDOMfeeditems = function reDOMfeeditems() {
+	$('.feeditem').addClass('panel panel-default').removeClass('feeditem');
+	$('.feeditemusericon').parent('a').parent('span').wrap('<div class="panel-heading"></div>');
+	$('.feeditemusericon').removeClass('feeditemusericon');
+	$('.feeditemcontent').addClass('panel-body').removeClass('feeditemcontent');
+	$('.feeditemextras').addClass('well').removeClass('feeditemextras');
+	$('.feeditemcomments').removeClass('feeditemcomments');
+	$('.feeditemcomment').removeClass('feeditemcomment').addClass('panel panel-info');
+	$('.feeditemcommentbody').removeClass('feeditemcommentbody').addClass('panel-body');
+	$('.feeditemcommentphoto').addClass('pull-left');
+	$('.feeditemcommentplaceholder').addClass('well').removeClass('feeditemcommentplaceholder');
+	$('.newCommentContainer').addClass('well');
+	$('.headerSearchLeftRoundedCorner').removeClass('headerSearchLeftRoundedCorner');
+
+	$('.panel-heading').prepend('<a class="disclosureTrigger"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><span class="label label-default"></span></a>');
+
 	$('.cxfeeditem:not(.processed)').each(function eachFeedItem(i, el) {
 		var $el = $(el);
 
@@ -199,7 +200,7 @@ var betterFeedItemActions = function betterFeedItemActions() {
 		$el.find('.panel-heading').append($timestamp);
 	});
 
-	window.setTimeout(betterFeedItemActions, 4500);
+	window.setTimeout(reDOMfeeditems, 4500);
 }
 
 var trashBS = function trashBS() {
@@ -225,7 +226,7 @@ var trashBS = function trashBS() {
 }
 trashBS();
 reDOM();
-betterFeedItemActions();
+reDOMfeeditems();
 
 // Trash BS that loads really slowly
 var trashDelayedBS = function trashDelayedBS() {
@@ -272,8 +273,8 @@ var attachChatterChanges = function attachChatterChanges() {
 attachChatterChanges();
 
 $('.cxshowmorefeeditemscontainer.showmorefeeditemscontainer a')
-	.on('click', function callbetterFeedItemActions(e) {
-		window.setTimeout(betterFeedItemActions, 4500);
+	.on('click', function callreDOMfeeditems(e) {
+		window.setTimeout(reDOMfeeditems, 4500);
 	});
 
 
