@@ -10,10 +10,19 @@
 	float: left;
 }
 
+.topics {
+	float: left;
+	margin-left: 10px;
+	width: 350px;
+	height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .feeditemActionsWrapper {
 	text-align: right;
 	float: right;
-	width: 150px;
+	width: 80px;
 }
 
 .feeditemActionsWrapper a{

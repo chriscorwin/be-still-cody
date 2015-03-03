@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+053
+// @version     0.1.0+054
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -143,6 +143,7 @@ var betterFeedItemActions = function betterFeedItemActions() {
 		$el.find('.panel-heading').append($feeditemTitle);
 
 		var $topics = $el.find('.topics').detach();
+		$topics.find('.editLink').remove();
 		$el.find('.panel-heading').append($topics);
 
 		var $menu = $el.find('.feeditemActionMenu').detach();
