@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?><feed xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
 	<title>Mail Filters</title>
-	<id>tag:mail.google.com,2008:filters:1425390836252,1425398361897</id>
-	<updated>2015-03-03T16:00:00Z</updated>
+	<id>tag:mail.google.com,2008:filters:1425390836252,1425403505839</id>
+	<updated>2015-03-03T17:25:11Z</updated>
 	<author>
 		<name>Christopher McCulloh</name>
 		<email>cmcculloh@salesforce.com</email>
@@ -10,7 +10,7 @@
 		<category term='filter'></category>
 		<title>Mail Filter</title>
 		<id>tag:mail.google.com,2008:filter:1425390836252</id>
-		<updated>2015-03-03T16:00:00Z</updated>
+		<updated>2015-03-03T17:25:11Z</updated>
 		<content></content>
 		<apps:property name='to' value='uxds-indy@exacttarget.com'/>
 		<apps:property name='shouldNeverMarkAsImportant' value='true'/>
@@ -21,10 +21,10 @@
 	<entry>
 		<category term='filter'></category>
 		<title>Mail Filter</title>
-		<id>tag:mail.google.com,2008:filter:1425398361897</id>
-		<updated>2015-03-03T16:00:00Z</updated>
+		<id>tag:mail.google.com,2008:filter:1425403505839</id>
+		<updated>2015-03-03T17:25:11Z</updated>
 		<content></content>
-		<apps:property name='hasTheWord' value='subject:(wfh OR WFH OR Wfh OR &quot;2hr delay&quot; OR PTO OR VTO OR &quot;In by&quot; OR &quot;In before&quot; OR &quot;finishing from&quot; OR &quot;working from&quot; OR &quot;dr appt&quot; OR &quot;dr. appt&quot; OR &quot;DR appt&quot; OR &quot;Dr appt&quot; OR &quot;Dr. appt&quot;)'/>
+		<apps:property name='hasTheWord' value='subject:(wfh OR WFH OR Wfh OR &quot;2hr delay&quot; OR PTO OR VTO OR &quot;In by&quot; OR &quot;In before&quot; OR &quot;finishing from&quot; OR &quot;working from&quot; OR &quot;dr appt&quot; OR &quot;dr. appt&quot; OR &quot;DR appt&quot; OR &quot;Dr appt&quot; OR &quot;Dr. appt&quot; OR dentist)'/>
 		<apps:property name='shouldMarkAsRead' value='true'/>
 		<apps:property name='shouldArchive' value='true'/>
 		<apps:property name='shouldNeverMarkAsImportant' value='true'/>
