@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+060
+// @version     0.1.0+061
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -103,6 +103,7 @@ var closeFeedItem = function closeFeedItem($el) {
 	} else if (previouslyHiddenItem.comments < commentsN) {
 		//don't update the comments count. Only update the count on newly closing an item, otherwise it will show comments as read when they may not have been
 		labelClass = 'label-primary';
+		$('cxfeedcontainer').after($el.detach());
 	}
 
 	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
