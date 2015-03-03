@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+054
+// @version     0.1.0+056
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -90,21 +90,19 @@ var toggleFeedItem = function toggleFeedItem($el) {
 var closeFeedItem = function closeFeedItem($el) {
 	var labelClass = 'label-default';
 	var commentsN = scrapeFeedItemCommentCount($el);
-	if (!_.contains(closedFeedItems, $el.prop('id'))) {
+	var previouslyHiddenItem = _.findWhere(closedFeedItems, {
+		id: $el.prop('id')
+	});
+
+	if (!previouslyHiddenItem) {
+		//new item, add to closedFeedItems list
 		closedFeedItems.unshift({
 			id: $el.prop('id'),
 			comments: commentsN
 		});
-	} else {
-		var eli = _.findIndex(closedFeedItems, function (item) {
-			return item.id === $el.prop('id');
-		});
-
-		if (closedFeedItems[eli].comments < commentsN) {
-			labelClass = 'label-primary';
-			closedFeedItems[eli].comments = commentsN;
-		}
-
+	} else if (previouslyHiddenItem.comments < commentsN) {
+		labelClass = 'label-primary';
+		previouslyHiddenItem.comments = commentsN;
 	}
 
 	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
@@ -125,9 +123,8 @@ var discloseFeedItem = function discloseFeedItem($el) {
 	$el.find('.cxfeeditemcontent').removeClass('hidden')
 }
 var scrapeFeedItemCommentCount = function scrapeFeedItemCommentCount($el) {
-	var hiddenN = $el.find('.cxfeedcommentcount').text() + 0;
+	var hiddenN = Number.parseInt($el.find('.cxfeedcommentcount').text(), 10);
 	var shownN = $el.find('.cxfeedcomment').length;
-	console.log(hiddenN, shownN);
 	return hiddenN + shownN;
 }
 
@@ -180,9 +177,11 @@ var betterFeedItemActions = function betterFeedItemActions() {
 
 		$el.find('.disclosureTrigger label').text(scrapeFeedItemCommentCount($el));
 
-		var hiddenChatI = closedFeedItems.indexOf(id);
+		var isHidden = _.findWhere(closedFeedItems, {
+			id: $el.prop('id')
+		});
 
-		if (hiddenChatI >= 0) {
+		if (isHidden) {
 			closeFeedItem($el);
 		}
 
