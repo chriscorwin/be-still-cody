@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+057
+// @version     0.1.0+058
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -107,7 +107,7 @@ var closeFeedItem = function closeFeedItem($el) {
 
 	localStorage.setItem('closedFeedItems', JSON.stringify(closedFeedItems));
 	$el.find('.disclosureTrigger .glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
-	$el.find('.disclosureTrigger .label').removeClass().addClass('label', labelClass).text(commentsN);
+	$el.find('.disclosureTrigger .label').removeClass().addClass('label ' + labelClass).text(commentsN);
 	$el.find('.cxfeeditemcontent').addClass('hidden');
 }
 var discloseFeedItem = function discloseFeedItem($el) {
@@ -125,7 +125,7 @@ var discloseFeedItem = function discloseFeedItem($el) {
 var scrapeFeedItemCommentCount = function scrapeFeedItemCommentCount($el) {
 	var hiddenN = Number.parseInt($el.find('.cxfeedcommentcount').text(), 10);
 	var shownN = $el.find('.cxfeedcomment').length;
-	return hiddenN + shownN;
+	return hiddenN + shownN || 0;
 }
 
 var betterFeedItemActions = function betterFeedItemActions() {
