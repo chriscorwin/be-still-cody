@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Be Still, Cody
 // @namespace   http://chomperstomp.com
-// @version     0.1.0+058
+// @version     0.1.0+059
 // @description Cut out the useless Chatter
 // @author      Christopher McCulloh
 // @contributor Chris Corwin
@@ -123,7 +123,7 @@ var discloseFeedItem = function discloseFeedItem($el) {
 	$el.find('.cxfeeditemcontent').removeClass('hidden')
 }
 var scrapeFeedItemCommentCount = function scrapeFeedItemCommentCount($el) {
-	var hiddenN = Number.parseInt($el.find('.cxfeedcommentcount').text(), 10);
+	var hiddenN = $el.find('.cxfeedcommentcount').text() - 0;
 	var shownN = $el.find('.cxfeedcomment').length;
 	return hiddenN + shownN || 0;
 }
