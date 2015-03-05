@@ -57,6 +57,8 @@ var sanitization = [
     {'id':'#peopleforce', 'title':'Talentforce'},
     {'id':'#corpediafteonly', 'title':'"Ethics" & Compliance'},
     {'id':'#salesforcemediacenter', 'title':'Media Streaming/Hosting'},
+    {'id':'#googlecalendar', 'title':'Google Calendar'},
+    {'id':'#gmail', 'title':'GMail'}
 
 ];
 sanitization.forEach(function(item, i, sanitization){
