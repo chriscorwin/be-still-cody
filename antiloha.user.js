@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Antiloha
 // @namespace    http://chomperstomp.com/
-// @version      0.1.0+001
+// @version      0.1.0+002
 // @description  Turn Aloha from a memory-game style free-for all into something slightly more understandable
 // @author       Christopher McCulloh
 // @updateURL    https://raw.githubusercontent.com/cormacmccarthy/be-still-cody/master/Antiloha.user.js
